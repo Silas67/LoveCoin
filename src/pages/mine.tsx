@@ -161,7 +161,9 @@ function App() {
                             onClick={handleClick}
                         >
                             <div className="box"> 
+                              <div className="box2">
                               Fill Effect
+                              </div>                              
                             </div>
 
                             <div className="">
