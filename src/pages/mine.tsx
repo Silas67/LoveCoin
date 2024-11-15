@@ -2,12 +2,13 @@ import { useMemo, useState, useEffect } from "react";
 import lovecoin from "../assets/images/lovecoin.png";
 import SkullImage from "../assets/images/Skull.png";
 import binanceLogo from "../assets/images/binance-logo.png";
-import heart from "../assets/images/Blue-heart.png";
+import heart from "../assets/images/red heart.png";
 import React from "react";
 import Mine from "../assets/icons/Mine";
 import Friends from "../assets/icons/Friends";
 import Coins from "../assets/icons/Coins";
 import { Link } from "react-router-dom";
+import '../App.css';
 
 function App() {
   const levelNames = [
@@ -33,13 +34,14 @@ function App() {
 
   const [levelIndex, setLevelIndex] = useState(1);
   const [points, setPoints] = useState(4980);
-  const pointsToAdd = 1;
+  const pointsToAdd = 59;
   const profitPerHour = 110000;
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
     []
   );
   const [energy, setEnergy] = useState(6500);
   const energyToReduce = 29;
+  const [isFilled, setIsFilled] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (energy - energyToReduce < 0) {
@@ -53,6 +55,9 @@ function App() {
     setPoints(points + pointsToAdd);
     setEnergy(energy - energyToReduce < 0 ? 0 : energy - energyToReduce);
     setClicks([...clicks, { id: Date.now(), x, y }]);
+    setIsFilled(true);
+    setTimeout(() => setIsFilled(false), 50000);
+
   };
 
   const handleAnimationEnd = (id: number) => {
@@ -89,7 +94,7 @@ function App() {
   }, [points, levelIndex, levelMinPoints, levelNames.length]);
 
   return (
-    <div className=" fixed w-full bg-hero bg-contain text-white  min-h-screen px-6 py-3">
+    <div className=" fixed w-full bg-gradient-to-b from-[#942929] to-[#240b0b] text-white  min-h-screen px-6 py-3">
         <div className="w-full  z-10 min-h-screen flex flex-col items-center text-red-500">
 
             <div className="fixed top-0 left-0 w-full px-4 pt-8 z-10 flex flex-col items-center text-white">
@@ -134,7 +139,7 @@ function App() {
 
                         <div className="w-full h-2 bg-[#43433b]/[0.6] rounded-full">
                             <div
-                            className="h-2 rounded-full bg-gradient-to-r from-[#e7a1a1] to-[#5f0909]"
+                            className="h-2 rounded-full bg-gradient-to-r from-[#e2c7a35d] to-[#e4ccae]"
                             style={{ width: `${calculateProgress()}%` }}
                             ></div>
                         </div>
@@ -155,7 +160,17 @@ function App() {
                             className="relative cursor-pointer pt-14"
                             onClick={handleClick}
                         >
-                            <img src={heart} alt="heart icon" width={250} height={100} />
+                            <div className="box"> 
+                              Fill Effect
+                            </div>
+
+                            <div className="">
+
+                            </div>
+
+                            {/* <div className={`absolute inset-14 bg-red-500 transition-transform duration-1000 transform ${isFilled ? "scale-y-100" : " scale-y-0"} opacity origin-bottom `} style={{ clipPath: 'polygon(50% 0%, 90% 25%, 100% 55%, 75% 100%, 50% 85%, 25% 100%, 0% 55%, 10% 25%)' }} >
+                              
+                            </div> */}
 
                             <div className="flex-grow flex items-center justify-center text-black">
                                 <div className="relative mt-4" onClick={handleClick}>
@@ -170,7 +185,7 @@ function App() {
                                         }}
                                         onAnimationEnd={() => handleAnimationEnd(click.id)}
                                     >
-                                        <img src={lovecoin} alt="lovecoin" width={30} height={40} />
+                                        {pointsToAdd}
                                     </div>
                                 ))}
                                 </div>
@@ -195,14 +210,6 @@ function App() {
 
                     {/* Bottom Navbar */}
                     <div className=" fixed bottom-5 left-1/2 max-w-xl bg-[#f046af00] flex justify-around items-center z-50 rounded-2xl w-[calc(100%-2rem)] transform -translate-x-1/2 text-sm font-lato p-3">
-                    <div className="hover:bg-[#30bcf3e1]">
-                        <img
-                        src={binanceLogo}
-                        alt="Exchange"
-                        className="w-8 h-8 mx-auto"
-                        />
-                        <p className="mt-1">Exchange</p>
-                    </div>
                     <Link className="text-center w-1/5" to="/">
                         <Mine className="w-8 h-8 mx-auto pb-1 text-gray-500" />
                         Mine
